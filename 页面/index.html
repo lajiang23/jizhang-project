@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>债务记账台</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <nav class="page-nav">
+        <button class="page-nav-button active" data-view="workspace">债务工作台</button>
+        <button class="page-nav-button" data-view="annual">年度账单</button>
+      </nav>
+
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Debt Ledger MVP</p>
+          <h1>债务记账台</h1>
+          <p class="hero-copy">
+            管理当前用户的欠款、借款、凭证导入和还款计划。所有数据保存在浏览器本地，适合先验证流程。
+          </p>
+        </div>
+        <div class="hero-metrics" id="heroMetrics"></div>
+      </header>
+
+      <main class="layout" id="workspaceView">
+        <section class="panel overview-panel">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Overview</p>
+              <h2>债务总览</h2>
+            </div>
+            <button class="ghost-button" id="seedDemoButton">加载示例数据</button>
+          </div>
+          <div class="filters" id="filterBar"></div>
+          <div class="debt-list" id="debtList"></div>
+        </section>
+
+        <section class="panel composer-panel">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Compose</p>
+              <h2>新增或编辑记录</h2>
+            </div>
+            <div class="segmented">
+              <button class="segmented-button active" data-mode="manual">手动录入</button>
+              <button class="segmented-button" data-mode="import">导入凭证</button>
+            </div>
+          </div>
+
+          <div class="mode-panel" id="manualPanel">
+            <form id="debtForm" class="form-grid"></form>
+          </div>
+
+          <div class="mode-panel hidden" id="importPanel">
+            <div class="import-grid">
+              <div class="import-dropzone">
+                <label for="importFile" class="dropzone-label">
+                  <span>上传图片、PDF、Excel 或 CSV</span>
+                  <small>流程：解析内容 -> AI 提取字段 -> 人工确认后入账</small>
+                </label>
+                <input id="importFile" type="file" accept=".png,.jpg,.jpeg,.pdf,.csv,.xlsx,.xls" />
+                <button id="parseFileButton" class="primary-button" type="button">开始识别</button>
+                <p class="helper-text" id="importStatus">尚未选择文件。</p>
+              </div>
+              <div class="import-preview" id="importPreview"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel detail-panel">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Detail</p>
+              <h2>记录详情与还款计划</h2>
+            </div>
+            <button class="ghost-button" id="clearSelectionButton">取消选择</button>
+          </div>
+          <div class="detail-body" id="detailBody"></div>
+        </section>
+      </main>
+
+      <section class="annual-view hidden" id="annualView">
+        <div class="annual-toolbar panel">
+          <div>
+            <p class="section-kicker">Annual Bill</p>
+            <h2>年度账单汇总</h2>
+          </div>
+          <div class="annual-actions">
+            <label class="annual-year-picker" for="annualYearSelect">年份</label>
+            <select id="annualYearSelect"></select>
+          </div>
+        </div>
+
+        <div class="annual-summary" id="annualSummary"></div>
+
+        <div class="annual-grid">
+          <section class="panel annual-chart">
+            <div class="section-head">
+              <div>
+                <p class="section-kicker">Monthly Rollup</p>
+                <h2>月度趋势</h2>
+              </div>
+            </div>
+            <div class="month-bars" id="monthBars"></div>
+          </section>
+
+          <section class="panel annual-month-list">
+            <div class="section-head">
+              <div>
+                <p class="section-kicker">Monthly Detail</p>
+                <h2>按月份明细</h2>
+              </div>
+            </div>
+            <div id="annualMonthList"></div>
+          </section>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
