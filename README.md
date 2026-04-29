@@ -128,6 +128,12 @@ http://127.0.0.1:8123/
 
 [https://lajiang23.github.io/jizhang-project/](https://lajiang23.github.io/jizhang-project/)
 
+## 商用化规划
+
+从当前原型升级到可商用产品的分阶段清单见：
+
+[docs/commercialization-checklist.md](</E:/记账项目/docs/commercialization-checklist.md>)
+
 ## 目录结构
 
 ```text
@@ -135,6 +141,8 @@ http://127.0.0.1:8123/
 ├─ .github/
 │  └─ workflows/
 │     └─ deploy-pages.yml
+├─ docs/
+│  └─ commercialization-checklist.md
 ├─ 页面/
 │  ├─ index.html
 │  ├─ styles.css
